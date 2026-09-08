@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Store {
+  id          Int              @id @default(autoincrement())
+  code        String           @unique
+  name        String
+  address     String
+  city        String
+  inventories StoreInventory[]
+  returns     ReturnRecord[]
+}
+
+model Product {
+  id          Int              @id @default(autoincrement())
+  sku         String           @unique
+  name        String
+  category    String
+  price       Float
+  unit        String           @default("unidad")
+  inventories StoreInventory[]
+  orderItems  OrderItem[]
+  returnItems ReturnItem[]
+}
+
+model StoreInventory {
+  id          Int      @id @default(autoincrement())
+  storeId     Int
+  productId   Int
+  stock       Int      @default(0)
+  lastUpdated DateTime @default(now()) @updatedAt
+
+  store   Store   @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([storeId, productId])
+}
+
+model Order {
+  id               Int            @id @default(autoincrement())
+  orderCode        String         @unique
+  customerName     String
+  customerDocument String
+  customerEmail    String
+  totalAmount      Float
+  status           String         @default("ENTREGADO") // ENTREGADO, DEVUELTO_PARCIAL, DEVUELTO_TOTAL, EN_CAMINO, CANCELADO
+  createdAt        DateTime       @default(now())
+  deliveredAt      DateTime?
+  items            OrderItem[]
+  returns          ReturnRecord[]
+}
+
+model OrderItem {
+  id               Int          @id @default(autoincrement())
+  orderId          Int
+  productId        Int
+  quantity         Int
+  unitPrice        Float
+  subtotal         Float
+  returnedQuantity Int          @default(0)
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  returnItems ReturnItem[]
+}
+
+model ReturnRecord {
+  id               Int          @id @default(autoincrement())
+  returnCode       String       @unique
+  orderId          Int
+  storeId          Int
+  clerkName        String
+  reason           String
+  productCondition String       @default("OPTIMO") // OPTIMO o DANADO
+  refundType       String       @default("VALE_COMPRA") // VALE_COMPRA o REEMBOLSO_MEDIO_ORIGINAL
+  voucherCode      String?      @unique
+  totalRefunded    Float
+  status           String       @default("APROBADO")
+  createdAt        DateTime     @default(now())
+
+  order Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  store Store        @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  items ReturnItem[]
+}
+
+model ReturnItem {
+  id           Int      @id @default(autoincrement())
+  returnId     Int
+  orderItemId  Int
+  productId    Int
+  quantity     Int
+  refundAmount Float
+  restocked    Boolean  @default(true)
+
+  returnRecord ReturnRecord @relation(fields: [returnId], references: [id], onDelete: Cascade)
+  orderItem    OrderItem    @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
