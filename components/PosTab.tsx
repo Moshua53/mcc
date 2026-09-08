@@ -1,7 +1,11 @@
 "use client";
 
 import React from "react";
-import { Store, Search, XCircle, CheckCircle2, AlertTriangle, ShieldCheck, Tag } from "lucide-react";
+import { 
+  Store, Search, XCircle, CheckCircle2, AlertTriangle, ShieldCheck, 
+  Package, User, Calendar, CreditCard, Ticket, ArrowRight, Sparkles, 
+  RotateCcw, Minus, Plus, AlertCircle, Check
+} from "lucide-react";
 
 export interface OrderItemDetail {
   id: number;
@@ -82,58 +86,93 @@ export const PosTab: React.FC<PosTabProps> = ({
 }) => {
   return (
     <div className="space-y-6">
-      {/* Demo Quick Pills */}
-      <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-wrap items-center gap-2">
-        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Casos Rápidos para Demo:</span>
-        <button
-          onClick={() => { setSearchCode("ORD-2026-101"); onSearch("ORD-2026-101"); }}
-          className="bg-white border border-slate-300 hover:border-viva-600 hover:text-viva-700 text-xs px-3 py-1.5 rounded-full shadow-sm font-medium transition"
-        >
-          ✅ ORD-2026-101 (Válido: 5 días)
-        </button>
-        <button
-          onClick={() => { setSearchCode("ORD-2026-105"); onSearch("ORD-2026-105"); }}
-          className="bg-white border border-slate-300 hover:border-viva-600 hover:text-viva-700 text-xs px-3 py-1.5 rounded-full shadow-sm font-medium transition"
-        >
-          ✅ ORD-2026-105 (Válido: 2 días)
-        </button>
-        <button
-          onClick={() => { setSearchCode("ORD-2026-102"); onSearch("ORD-2026-102"); }}
-          className="bg-amber-50 border border-amber-300 hover:border-amber-500 text-amber-900 text-xs px-3 py-1.5 rounded-full shadow-sm font-medium transition"
-        >
-          ⚠️ ORD-2026-102 (Excepcional: Vencido 45 días)
-        </button>
-        <button
-          onClick={() => { setSearchCode("ORD-2026-103"); onSearch("ORD-2026-103"); }}
-          className="bg-amber-50 border border-amber-300 hover:border-amber-500 text-amber-900 text-xs px-3 py-1.5 rounded-full shadow-sm font-medium transition"
-        >
-          ⚠️ ORD-2026-103 (Excepcional: Ya devuelto)
-        </button>
-        <button
-          onClick={() => { setSearchCode("ORD-2026-104"); onSearch("ORD-2026-104"); }}
-          className="bg-amber-50 border border-amber-300 hover:border-amber-500 text-amber-900 text-xs px-3 py-1.5 rounded-full shadow-sm font-medium transition"
-        >
-          ⚠️ ORD-2026-104 (Excepcional: En camino)
-        </button>
+      {/* Demo Quick Pills / Casos Académicos */}
+      <div className="bg-white/80 backdrop-blur border border-slate-200/90 rounded-2xl p-4 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span className="text-xs font-black text-slate-700 uppercase tracking-wider">
+              Casos Rápidos para Demostración:
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => { setSearchCode("ORD-2026-101"); onSearch("ORD-2026-101"); }}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                searchCode === "ORD-2026-101" 
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20 ring-2 ring-emerald-400" 
+                  : "bg-slate-100 hover:bg-slate-200/80 text-slate-700"
+              }`}
+            >
+              <Check className="w-3.5 h-3.5" /> ORD-2026-101 <span className="opacity-70 text-[11px]">(5 días)</span>
+            </button>
+            <button
+              onClick={() => { setSearchCode("ORD-2026-105"); onSearch("ORD-2026-105"); }}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                searchCode === "ORD-2026-105" 
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20 ring-2 ring-emerald-400" 
+                  : "bg-slate-100 hover:bg-slate-200/80 text-slate-700"
+              }`}
+            >
+              <Check className="w-3.5 h-3.5" /> ORD-2026-105 <span className="opacity-70 text-[11px]">(2 días &bull; Multi)</span>
+            </button>
+            <button
+              onClick={() => { setSearchCode("ORD-2026-102"); onSearch("ORD-2026-102"); }}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                searchCode === "ORD-2026-102" 
+                  ? "bg-amber-600 text-white shadow-md shadow-amber-600/20 ring-2 ring-amber-400" 
+                  : "bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200/80"
+              }`}
+            >
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-600" /> ORD-2026-102 <span className="opacity-70 text-[11px]">(45d Vencido)</span>
+            </button>
+            <button
+              onClick={() => { setSearchCode("ORD-2026-103"); onSearch("ORD-2026-103"); }}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                searchCode === "ORD-2026-103" 
+                  ? "bg-rose-600 text-white shadow-md shadow-rose-600/20 ring-2 ring-rose-400" 
+                  : "bg-rose-50 hover:bg-rose-100 text-rose-900 border border-rose-200/80"
+              }`}
+            >
+              <XCircle className="w-3.5 h-3.5 text-rose-600" /> ORD-2026-103 <span className="opacity-70 text-[11px]">(Ya Devuelto)</span>
+            </button>
+            <button
+              onClick={() => { setSearchCode("ORD-2026-104"); onSearch("ORD-2026-104"); }}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                searchCode === "ORD-2026-104" 
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-600/20 ring-2 ring-blue-400" 
+                  : "bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200/80"
+              }`}
+            >
+              <Package className="w-3.5 h-3.5 text-blue-600" /> ORD-2026-104 <span className="opacity-70 text-[11px]">(En Camino)</span>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Left Column: Search & Order Details */}
-        <div className="space-y-6">
-          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-4">
-            <h2 className="text-base font-bold text-navy-900 flex items-center gap-2">
-              <Store className="w-5 h-5 text-viva-600" />
-              1. Búsqueda y Validación de Compra Digital
-            </h2>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Column (5 cols): Lookup & Order Card */}
+        <div className="lg:col-span-5 space-y-6">
+          {/* Lookup Panel */}
+          <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+                <Store className="w-4 h-4 text-emerald-600" />
+                1. Selección de Sucursal y Búsqueda
+              </h2>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-600">
+                Paso 1
+              </span>
+            </div>
 
             <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Sucursal Física Receptora:
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                Sucursal Física Receptora de Devolución:
               </label>
               <select
                 value={selectedStoreId}
                 onChange={(e) => setSelectedStoreId(parseInt(e.target.value, 10))}
-                className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-viva-500 focus:outline-none"
+                className="w-full bg-slate-50 border border-slate-300 hover:border-slate-400 focus:border-emerald-600 focus:bg-white focus:ring-4 focus:ring-emerald-500/10 rounded-xl p-2.5 text-xs font-semibold text-slate-800 transition outline-none"
               >
                 {stores.map((s) => (
                   <option key={s.id} value={s.id}>
@@ -144,103 +183,137 @@ export const PosTab: React.FC<PosTabProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
                 Código de Pedido o Cédula del Cliente:
               </label>
               <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={searchCode}
-                  onChange={(e) => setSearchCode(e.target.value)}
-                  placeholder="Ej: ORD-2026-101 o 10203040"
-                  className="flex-1 border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-viva-500 focus:outline-none"
-                  onKeyDown={(e) => e.key === "Enter" && onSearch()}
-                />
+                <div className="relative flex-1">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={searchCode}
+                    onChange={(e) => setSearchCode(e.target.value)}
+                    placeholder="ORD-2026-101 o 10203040"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-300 hover:border-slate-400 focus:border-emerald-600 focus:bg-white focus:ring-4 focus:ring-emerald-500/10 rounded-xl text-xs font-medium text-slate-900 transition outline-none"
+                    onKeyDown={(e) => e.key === "Enter" && onSearch()}
+                  />
+                </div>
                 <button
                   onClick={() => onSearch()}
                   disabled={loadingOrder}
-                  className="bg-viva-600 hover:bg-viva-700 text-white font-semibold px-4 py-2.5 rounded-lg text-sm transition flex items-center gap-1 shadow-sm"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md shadow-emerald-600/20 flex items-center gap-1.5 disabled:opacity-50"
                 >
-                  <Search className="w-4 h-4" /> {loadingOrder ? "Buscando..." : "Consultar"}
+                  {loadingOrder ? (
+                    <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
+                  ) : (
+                    <>Consultar</>
+                  )}
                 </button>
               </div>
             </div>
           </div>
 
+          {/* Error Message */}
           {orderError && (
-            <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl flex items-start gap-3">
-              <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+            <div className="bg-rose-50 border border-rose-200 p-4 rounded-2xl flex items-start gap-3 shadow-sm animate-in fade-in slide-in-from-top-2">
+              <AlertCircle className="w-5 h-5 text-rose-600 flex-shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-sm font-bold text-red-800">No elegible para devolución</h4>
-                <p className="text-xs text-red-700 mt-1">{orderError}</p>
+                <h4 className="text-xs font-bold text-rose-900">Validación Rechazada</h4>
+                <p className="text-xs text-rose-700 mt-0.5">{orderError}</p>
               </div>
             </div>
           )}
 
+          {/* Order Details Card */}
           {currentOrder && (
-            <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-4">
-              <div className="flex justify-between items-start">
+            <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4 animate-in fade-in zoom-in-95 duration-150">
+              <div className="flex items-start justify-between">
                 <div>
-                  <span className="text-xs font-bold text-gray-400">PEDIDO DIGITAL</span>
-                  <h3 className="text-lg font-extrabold text-navy-900">{currentOrder.orderCode}</h3>
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                    Compra Digital
+                  </span>
+                  <h3 className="text-base font-black text-slate-900 tracking-tight">
+                    {currentOrder.orderCode}
+                  </h3>
                 </div>
-                <span className={`text-xs font-bold px-2.5 py-1 rounded-full uppercase ${
-                  currentOrder.status === "ENTREGADO" ? "bg-emerald-100 text-emerald-800" :
-                  currentOrder.status === "DEVUELTO_PARCIAL" ? "bg-blue-100 text-blue-800" :
-                  "bg-red-100 text-red-800"
+                <span className={`text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider ${
+                  currentOrder.status === "ENTREGADO" 
+                    ? "bg-emerald-100 text-emerald-800 border border-emerald-300" 
+                    : currentOrder.status === "DEVUELTO_PARCIAL" 
+                    ? "bg-blue-100 text-blue-800 border border-blue-300" 
+                    : "bg-rose-100 text-rose-800 border border-rose-300"
                 }`}>
                   {currentOrder.status}
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-xs border-y border-gray-100 py-3 text-gray-600">
-                <div><span className="font-semibold">Cliente:</span> {currentOrder.customerName}</div>
-                <div><span className="font-semibold">Documento:</span> {currentOrder.customerDocument}</div>
-                <div><span className="font-semibold">Email:</span> {currentOrder.customerEmail}</div>
-                <div><span className="font-semibold">Total Compra:</span> ${currentOrder.totalAmount.toLocaleString()} COP</div>
-                <div className="col-span-2">
-                  <span className="font-semibold">Antigüedad:</span>{" "}
-                  {currentOrder.daysSinceDelivery !== null ? (
-                    <span>{currentOrder.daysSinceDelivery} días desde entrega (Límite: 30 días)</span>
-                  ) : (
-                    "Sin entrega registrada"
-                  )}
+              <div className="grid grid-cols-2 gap-3 text-xs bg-slate-50/80 rounded-xl p-3.5 border border-slate-100">
+                <div>
+                  <span className="text-[11px] text-slate-500 block">Cliente:</span>
+                  <span className="font-bold text-slate-800">{currentOrder.customerName}</span>
+                </div>
+                <div>
+                  <span className="text-[11px] text-slate-500 block">Identificación:</span>
+                  <span className="font-bold text-slate-800">{currentOrder.customerDocument}</span>
+                </div>
+                <div>
+                  <span className="text-[11px] text-slate-500 block">Monto Original:</span>
+                  <span className="font-bold text-slate-800">${currentOrder.totalAmount.toLocaleString()} COP</span>
+                </div>
+                <div>
+                  <span className="text-[11px] text-slate-500 block">Antigüedad:</span>
+                  <span className="font-bold text-slate-800">
+                    {currentOrder.daysSinceDelivery !== null ? `${currentOrder.daysSinceDelivery} días` : "N/D"}
+                  </span>
                 </div>
               </div>
 
-              <div className={`p-3.5 rounded-lg text-xs flex items-start gap-2.5 ${
+              {/* Policy Diagnostic Alert */}
+              <div className={`p-4 rounded-xl text-xs flex items-start gap-3 border ${
                 currentOrder.isEligibleForReturn 
-                  ? "bg-emerald-50 text-emerald-900 border border-emerald-200" 
-                  : "bg-amber-50 text-amber-900 border border-amber-200"
+                  ? "bg-emerald-50/80 text-emerald-950 border-emerald-200" 
+                  : "bg-amber-50/80 text-amber-950 border-amber-200"
               }`}>
                 {currentOrder.isEligibleForReturn ? (
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
                 ) : (
-                  <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+                  <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                 )}
                 <div>
-                  <b className="font-bold">Diagnóstico de Reglas BORIS:</b> {currentOrder.eligibilityReason}
+                  <div className="font-extrabold uppercase tracking-wide text-[10px] text-slate-500">
+                    Diagnóstico de Reglas BORIS
+                  </div>
+                  <div className="font-semibold text-xs mt-0.5 leading-relaxed">
+                    {currentOrder.eligibilityReason}
+                  </div>
                 </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Right Column: Return Form */}
-        <div>
+        {/* Right Column (7 cols): Return Form & Checklist */}
+        <div className="lg:col-span-7">
           {currentOrder && currentOrder.isEligibleForReturn ? (
-            <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-5">
-              <h2 className="text-base font-bold text-navy-900 flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-viva-600" />
-                2. Inspección Física y Selección de Artículos
-              </h2>
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-6 animate-in fade-in slide-in-from-right-2 duration-150">
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                  2. Inspección Física y Selección de Artículos
+                </h2>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                  Paso 2 &bull; Caja POS
+                </span>
+              </div>
 
+              {/* Items List */}
               <div className="space-y-3">
-                <label className="block text-xs font-semibold text-gray-700">
-                  Selecciona los artículos a recibir en caja:
-                </label>
+                <div className="flex justify-between items-center text-xs font-bold text-slate-700">
+                  <span>Artículos del pedido:</span>
+                  <span className="text-[11px] text-slate-500 font-normal">Marca los artículos que el cliente entrega</span>
+                </div>
 
-                <div className="divide-y divide-gray-100 border border-gray-200 rounded-lg p-3 bg-slate-50/50">
+                <div className="space-y-2.5">
                   {currentOrder.items
                     .filter((it) => it.eligibleQuantity > 0)
                     .map((it) => {
@@ -248,11 +321,18 @@ export const PosTab: React.FC<PosTabProps> = ({
                       const qty = selectedItems[it.id]?.quantity ?? 1;
 
                       return (
-                        <div key={it.id} className="py-2.5 flex items-center justify-between gap-3">
-                          <div className="flex items-start gap-2.5 flex-1">
+                        <div
+                          key={it.id}
+                          className={`p-3.5 rounded-xl border transition-all flex items-center justify-between gap-3 ${
+                            isChecked 
+                              ? "border-emerald-500 bg-emerald-50/40 shadow-sm ring-1 ring-emerald-500/20" 
+                              : "border-slate-200 hover:border-slate-300 bg-slate-50/50"
+                          }`}
+                        >
+                          <div className="flex items-start gap-3 flex-1">
                             <input
                               type="checkbox"
-                              id={`check-${it.id}`}
+                              id={`item-${it.id}`}
                               checked={isChecked}
                               onChange={(e) =>
                                 setSelectedItems({
@@ -260,33 +340,44 @@ export const PosTab: React.FC<PosTabProps> = ({
                                   [it.id]: { checked: e.target.checked, quantity: qty },
                                 })
                               }
-                              className="mt-1 rounded text-viva-600 focus:ring-viva-500"
+                              className="w-4 h-4 mt-1 rounded text-emerald-600 focus:ring-emerald-500 cursor-pointer"
                             />
-                            <label htmlFor={`check-${it.id}`} className="text-xs cursor-pointer">
-                              <div className="font-bold text-gray-800">{it.productName}</div>
-                              <div className="text-gray-500 text-[11px]">
-                                SKU: {it.productSku} | Unitario: ${it.unitPrice.toLocaleString()} COP | Disp: {it.eligibleQuantity}
+                            <label htmlFor={`item-${it.id}`} className="cursor-pointer">
+                              <div className="text-xs font-bold text-slate-900">{it.productName}</div>
+                              <div className="text-[11px] text-slate-500 mt-0.5 flex items-center gap-2">
+                                <span className="font-mono bg-slate-200/70 px-1.5 py-0.2 rounded text-[10px]">{it.productSku}</span>
+                                <span>&bull;</span>
+                                <span className="font-semibold text-slate-700">${it.unitPrice.toLocaleString()} COP c/u</span>
+                                <span>&bull;</span>
+                                <span className="text-emerald-700 font-bold">Disp: {it.eligibleQuantity}</span>
                               </div>
                             </label>
                           </div>
 
+                          {/* Stepper Quantity Control */}
                           {isChecked && (
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-[11px] text-gray-500">Cant:</span>
-                              <input
-                                type="number"
-                                min={1}
-                                max={it.eligibleQuantity}
-                                value={qty}
-                                onChange={(e) => {
-                                  const val = Math.max(1, Math.min(it.eligibleQuantity, parseInt(e.target.value, 10) || 1));
-                                  setSelectedItems({
-                                    ...selectedItems,
-                                    [it.id]: { checked: true, quantity: val },
-                                  });
+                            <div className="flex items-center gap-2 bg-white border border-slate-300 rounded-lg p-1 shadow-sm">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const n = Math.max(1, qty - 1);
+                                  setSelectedItems({ ...selectedItems, [it.id]: { checked: true, quantity: n } });
                                 }}
-                                className="w-14 border border-gray-300 rounded p-1 text-center text-xs font-bold"
-                              />
+                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-slate-100 text-slate-600 transition"
+                              >
+                                <Minus className="w-3 h-3" />
+                              </button>
+                              <span className="w-7 text-center text-xs font-black text-slate-800">{qty}</span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const n = Math.min(it.eligibleQuantity, qty + 1);
+                                  setSelectedItems({ ...selectedItems, [it.id]: { checked: true, quantity: n } });
+                                }}
+                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-slate-100 text-slate-600 transition"
+                              >
+                                <Plus className="w-3 h-3" />
+                              </button>
                             </div>
                           )}
                         </div>
@@ -295,22 +386,92 @@ export const PosTab: React.FC<PosTabProps> = ({
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              {/* Form Options: Inspection & Refund Mode */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">Cajero / Asesor:</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    Inspección Física del Empaque:
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setCondition("OPTIMO")}
+                      className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+                        condition === "OPTIMO"
+                          ? "border-emerald-600 bg-emerald-50 text-emerald-950 font-bold ring-2 ring-emerald-500/20"
+                          : "border-slate-200 text-slate-600 hover:border-slate-300 bg-slate-50"
+                      }`}
+                    >
+                      <span className="block font-bold">ÓPTIMO</span>
+                      <span className="text-[10px] opacity-75 block font-normal mt-0.5">Reingresa a Góndola (+stock)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCondition("DANADO")}
+                      className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+                        condition === "DANADO"
+                          ? "border-amber-600 bg-amber-50 text-amber-950 font-bold ring-2 ring-amber-500/20"
+                          : "border-slate-200 text-slate-600 hover:border-slate-300 bg-slate-50"
+                      }`}
+                    >
+                      <span className="block font-bold">DAÑADO</span>
+                      <span className="text-[10px] opacity-75 block font-normal mt-0.5">Registro de Merma / Descarte</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    Modalidad de Compensación:
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setRefundType("VALE_COMPRA")}
+                      className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+                        refundType === "VALE_COMPRA"
+                          ? "border-emerald-600 bg-emerald-50 text-emerald-950 font-bold ring-2 ring-emerald-500/20"
+                          : "border-slate-200 text-slate-600 hover:border-slate-300 bg-slate-50"
+                      }`}
+                    >
+                      <Ticket className="w-3.5 h-3.5 text-emerald-600 mb-0.5" />
+                      <span className="block font-bold">Vale Digital</span>
+                      <span className="text-[10px] opacity-75 block font-normal">Store Credit Inmediato</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setRefundType("REEMBOLSO_MEDIO_ORIGINAL")}
+                      className={`p-2.5 rounded-xl border text-left text-xs transition-all ${
+                        refundType === "REEMBOLSO_MEDIO_ORIGINAL"
+                          ? "border-blue-600 bg-blue-50 text-blue-950 font-bold ring-2 ring-blue-500/20"
+                          : "border-slate-200 text-slate-600 hover:border-slate-300 bg-slate-50"
+                      }`}
+                    >
+                      <CreditCard className="w-3.5 h-3.5 text-blue-600 mb-0.5" />
+                      <span className="block font-bold">Medio Original</span>
+                      <span className="text-[10px] opacity-75 block font-normal">Reversión a Tarjeta</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Operational Metadata */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Cajero / Asesor:</label>
                   <input
                     type="text"
                     value={clerkName}
                     onChange={(e) => setClerkName(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-viva-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-medium text-slate-800 focus:border-emerald-600 focus:bg-white outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">Motivo:</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Motivo de Devolución:</label>
                   <select
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-viva-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-medium text-slate-800 focus:border-emerald-600 focus:bg-white outline-none"
                   >
                     <option value="Error de compra del cliente">Error de compra del cliente</option>
                     <option value="Producto duplicado">Producto duplicado</option>
@@ -321,50 +482,52 @@ export const PosTab: React.FC<PosTabProps> = ({
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              {/* Total Refund Banner */}
+              <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl p-4 flex items-center justify-between shadow-md">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">Inspección Física:</label>
-                  <select
-                    value={condition}
-                    onChange={(e) => setCondition(e.target.value as any)}
-                    className="w-full border border-gray-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-viva-500 font-semibold"
-                  >
-                    <option value="OPTIMO">ÓPTIMO (Reingresa a Góndola)</option>
-                    <option value="DANADO">DAÑADO / ABIERTO (Merma / Descarte)</option>
-                  </select>
+                  <span className="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">
+                    Total a Reembolsar al Cliente:
+                  </span>
+                  <span className="text-2xl font-black text-emerald-400 tracking-tight">
+                    ${totalRefund.toLocaleString()} COP
+                  </span>
                 </div>
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">Compensación:</label>
-                  <select
-                    value={refundType}
-                    onChange={(e) => setRefundType(e.target.value as any)}
-                    className="w-full border border-gray-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-viva-500"
-                  >
-                    <option value="VALE_COMPRA">Vale Inmediato (Store Credit)</option>
-                    <option value="REEMBOLSO_MEDIO_ORIGINAL">Reembolso a Tarjeta / Medio Original</option>
-                  </select>
+                <div className="text-right">
+                  <span className="text-[10px] text-slate-400 block">Sincronización:</span>
+                  <span className="text-xs font-bold text-emerald-300 flex items-center gap-1 justify-end">
+                    <Sparkles className="w-3 h-3" /> Transacción ACID
+                  </span>
                 </div>
               </div>
 
-              <div className="bg-navy-50 border border-navy-100 rounded-xl p-4 flex justify-between items-center">
-                <span className="text-sm font-bold text-navy-900">Total a Reembolsar:</span>
-                <span className="text-2xl font-extrabold text-viva-700">
-                  ${totalRefund.toLocaleString()} COP
-                </span>
-              </div>
-
+              {/* Action Button */}
               <button
                 onClick={onProcessReturn}
                 disabled={submittingReturn || totalRefund <= 0}
-                className="w-full bg-viva-600 hover:bg-viva-700 text-white font-bold py-3 px-4 rounded-xl shadow transition disabled:opacity-50 text-sm flex items-center justify-center gap-2"
+                className="w-full py-3.5 px-6 rounded-xl font-black text-sm text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-lg shadow-emerald-600/30 transition-all transform active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
               >
-                {submittingReturn ? "Procesando en Vercel..." : "Procesar Devolución en Tienda"}
+                {submittingReturn ? (
+                  <>
+                    <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
+                    Procesando Transacción en Vercel...
+                  </>
+                ) : (
+                  <>
+                    <span>Confirmar Devolución y Emitir Comprobante</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
               </button>
             </div>
           ) : (
-            <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center text-gray-400">
-              <Tag className="w-12 h-12 mx-auto mb-2 opacity-40" />
-              <p className="text-sm font-medium">Consulta un pedido válido para habilitar el formulario de devolución</p>
+            <div className="bg-white border-2 border-dashed border-slate-200 rounded-2xl p-12 text-center text-slate-400 flex flex-col items-center justify-center space-y-3">
+              <div className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
+                <RotateCcw className="w-7 h-7" />
+              </div>
+              <h3 className="text-sm font-bold text-slate-700">Esperando Selección de Pedido</h3>
+              <p className="text-xs text-slate-500 max-w-sm">
+                Consulta un pedido digital elegible o presiona uno de los botones de demo rápida en la parte superior para habilitar el mostrador de recepción física.
+              </p>
             </div>
           )}
         </div>
