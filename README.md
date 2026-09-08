@@ -20,6 +20,7 @@
 ## 🌐 Enlaces del Proyecto
 
 - **URL de la Aplicación en Producción (Vercel Free Tier):** [https://mercado-viva-mvp.vercel.app](https://mercado-viva-mvp.vercel.app)
+- **Repositorio de Código Fuente (GitHub):** [https://github.com/Moshua53/mcc](https://github.com/Moshua53/mcc)
 - **Archivo Editable Draw.io:** [`public/diagrams/mercado_viva_arquitectura.drawio`](public/diagrams/mercado_viva_arquitectura.drawio) (compatible con [diagrams.net](https://app.diagrams.net)).
 - **Visualizadores Interactivos HTML (Archify):**
   - 📐 [Diagrama de Arquitectura del Sistema (React + Node.js)](public/diagrams/mercado_viva_arquitectura.html)
@@ -177,7 +178,7 @@ Los clientes de **Mercado VIVA** que adquieren productos por la tienda digital (
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone <URL_DEL_REPOSITORIO>
+   git clone https://github.com/Moshua53/mcc.git
    cd mcc
    ```
 
