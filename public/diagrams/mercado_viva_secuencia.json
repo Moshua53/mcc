@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Secuencia de Comunicacion API - Devolucion Omnicanal (React + Node.js)",
+    "output": "diagrams/mercado_viva_secuencia.html",
+    "viewBox": [820, 760],
+    "animation": "trace",
+    "quality_profile": "showcase",
+    "views": [
+      { "id": "search-phase", "label": "Consulta y Elegibilidad", "focus": ["clerk", "ui", "api", "db"], "note": "Validacion del estado y plazo maximo de 30 dias." },
+      { "id": "process-phase", "label": "Procesamiento y Reingreso", "focus": ["clerk", "ui", "api", "db", "customer"], "note": "Transaccion atomica de reingreso al inventario de tienda y emision de vale." }
+    ]
+  },
+  "participants": [
+    { "id": "customer", "type": "external", "label": "Cliente", "sublabel": "en sucursal" },
+    { "id": "clerk", "type": "external", "label": "Asesor", "sublabel": "Cajero POS" },
+    { "id": "ui", "type": "frontend", "label": "React UI", "sublabel": "Next.js App" },
+    { "id": "api", "type": "backend", "label": "Node API", "sublabel": "Serverless" },
+    { "id": "db", "type": "database", "label": "Base Datos", "sublabel": "Prisma ORM" }
+  ],
+  "segments": [
+    { "from": 150, "to": 395, "label": "Consulta y Validacion" },
+    { "from": 405, "to": 670, "label": "Aprobacion y Reingreso" }
+  ],
+  "messages": [
+    { "id": "m1", "from": "customer", "to": "clerk", "y": 175, "label": "Presenta producto y QR", "variant": "default" },
+    { "id": "m2", "from": "clerk", "to": "ui", "y": 215, "label": "Ingresa codigo pedido", "variant": "default" },
+    { "id": "m3", "from": "ui", "to": "api", "y": 255, "label": "GET /api/orders/{code}", "variant": "emphasis" },
+    { "id": "m4", "from": "api", "to": "db", "y": 295, "label": "SELECT pedido y fechas", "variant": "default" },
+    { "id": "m5", "from": "db", "to": "api", "y": 335, "label": "Retorna datos de compra", "variant": "return" },
+    { "id": "m6", "from": "api", "to": "ui", "y": 375, "label": "200 OK (Elegible BORIS)", "variant": "return" },
+    { "id": "m7", "from": "clerk", "to": "ui", "y": 420, "label": "Inspeccion fisica OK", "variant": "default" },
+    { "id": "m8", "from": "ui", "to": "api", "y": 460, "label": "POST /api/returns", "variant": "emphasis" },
+    { "id": "m9", "from": "api", "to": "db", "y": 500, "label": "UPDATE pedido + stock tienda", "variant": "security" },
+    { "id": "m10", "from": "db", "to": "api", "y": 540, "label": "Commit transaccion", "variant": "return" },
+    { "id": "m11", "from": "api", "to": "ui", "y": 580, "label": "201 Created (Vale emitido)", "variant": "return" },
+    { "id": "m12", "from": "ui", "to": "clerk", "y": 620, "label": "Muestra vale y comprobante", "variant": "return" },
+    { "id": "m13", "from": "clerk", "to": "customer", "y": 655, "label": "Entrega vale de compra", "variant": "default" }
+  ],
+  "activations": [
+    { "participant": "ui", "from": 210, "to": 625, "type": "frontend" },
+    { "participant": "api", "from": 250, "to": 585, "type": "backend" },
+    { "participant": "db", "from": 290, "to": 545, "type": "database" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Protocolos",
+      "items": [
+        "Frontend React y Backend Node.js comunican mediante HTTPS REST / JSON",
+        "Backend utiliza transacciones ACID de Prisma ORM para evitar inconsistencias de stock"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Criterios Verificables",
+      "items": [
+        "El backend valida el plazo de 30 dias antes de permitir la devolucion",
+        "El inventario se incrementa en la sucursal receptora de forma inmediata"
+      ]
+    }
+  ]
+}

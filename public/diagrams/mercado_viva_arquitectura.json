@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Arquitectura Omnicanal MVP - Mercado VIVA (React + Node.js)",
+    "output": "diagrams/mercado_viva_arquitectura.html",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "full-flow",
+        "label": "Flujo Omnicanal Completo",
+        "focus": ["users", "clerk", "frontend", "api", "service_boris", "service_inv", "db"],
+        "note": "Interaccion del cliente y asesor de tienda física con el backend Node.js y base de datos."
+      },
+      {
+        "id": "store-ops",
+        "label": "Operaciones en Tienda",
+        "focus": ["clerk", "frontend", "api", "service_boris", "service_inv", "db"],
+        "note": "Procesamiento de devolución física y actualización inmediata de inventario local."
+      },
+      {
+        "id": "infra-free",
+        "label": "Infraestructura Gratuita",
+        "focus": ["api", "cloud", "db"],
+        "note": "Despliegue nativo en Vercel Free Tier con funciones Serverless y Prisma ORM."
+      }
+    ]
+  },
+  "components": [
+    { "id": "users", "type": "external", "label": "Cliente Digital", "sublabel": "Web / Mobile", "pos": [40, 160], "size": [130, 60] },
+    { "id": "clerk", "type": "external", "label": "Asesor de Tienda", "sublabel": "Caja / Terminal", "pos": [40, 340], "size": [130, 60] },
+    { "id": "frontend", "type": "frontend", "label": "Frontend React", "sublabel": "Next.js 14 App", "pos": [260, 250], "size": [130, 60], "tag": "React 18" },
+    { "id": "auth", "type": "security", "label": "Seguridad & DTO", "sublabel": "Zod + CORS", "pos": [480, 110], "size": [130, 60], "tag": "TypeScript" },
+    { "id": "api", "type": "backend", "label": "Node.js API", "sublabel": "Route Handlers", "pos": [480, 250], "size": [130, 60], "tag": "Serverless" },
+    { "id": "service_boris", "type": "backend", "label": "Servicio BORIS", "sublabel": "Motor Reglas", "pos": [700, 250], "size": [130, 60] },
+    { "id": "service_inv", "type": "backend", "label": "Servicio Stock", "sublabel": "Inventario Sucursal", "pos": [700, 390], "size": [130, 60] },
+    { "id": "db", "type": "database", "label": "Base de Datos", "sublabel": "Prisma ORM", "pos": [920, 250], "size": [130, 60], "tag": "SQLite / Postgres" },
+    { "id": "cloud", "type": "cloud", "label": "Vercel Free Tier", "sublabel": "Serverless Edge", "pos": [480, 390], "size": [130, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Capa Gratuita de Despliegue (Vercel Serverless Platform)", "wraps": ["auth", "api", "service_boris", "service_inv", "db", "cloud"] },
+    { "kind": "security-group", "label": "Next.js Fullstack", "wraps": ["frontend", "api"] }
+  ],
+  "connections": [
+    { "id": "users-to-front", "from": "users", "to": "frontend", "label": "HTTPS", "variant": "emphasis" },
+    { "id": "clerk-to-front", "from": "clerk", "to": "frontend", "label": "Devolucion" },
+    { "id": "front-to-api", "from": "frontend", "to": "api", "label": "REST API" },
+    { "id": "auth-to-api", "from": "auth", "to": "api", "fromSide": "bottom", "toSide": "top" },
+    { "id": "api-to-boris", "from": "api", "to": "service_boris" },
+    { "id": "api-to-inv", "from": "api", "to": "service_inv" },
+    { "id": "boris-to-db", "from": "service_boris", "to": "db" },
+    { "id": "inv-to-db", "from": "service_inv", "to": "db" },
+    { "id": "cloud-to-api", "from": "cloud", "to": "api", "fromSide": "top", "toSide": "bottom", "variant": "dashed" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Omnicanalidad", "items": ["Integracion del canal digital con tiendas fisicas", "Comprobacion y recepcion del pedido en tiempo real"] },
+    { "dot": "emerald", "title": "Reglas del Negocio", "items": ["Ventana de 30 dias desde entrega", "Reincorporacion al inventario fisico de la sucursal receptora", "Emision inmediata de vale o reembolso digital"] },
+    { "dot": "rose", "title": "Infraestructura Gratuita", "items": ["Stack 100% JavaScript/TypeScript en Vercel Free Tier", "Base de datos Prisma ORM agnostica SQLite/Postgres", "Frontend React y APIs Serverless Node.js unificadas"] }
+  ]
+}

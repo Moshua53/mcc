@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Flujo de Devolucion Omnicanal - Mercado VIVA",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "happy-path",
+        "label": "Flujo Exitoso BORIS",
+        "focus": ["arrival", "order_search", "rule_eval", "inspection", "restock", "refund_voucher", "receipt"],
+        "note": "Proceso completo desde la presentacion del pedido hasta el reintegro y reabastecimiento."
+      },
+      {
+        "id": "rejection-path",
+        "label": "Manejo de Excepciones",
+        "focus": ["order_search", "rule_eval", "reject", "inspection"],
+        "note": "Ruta de rechazo cuando no cumple antiguedad menor a 30 dias o el articulo esta deteriorado."
+      }
+    ],
+    "output": "diagrams/mercado_viva_proceso.html"
+  },
+  "lanes": [
+    { "id": "customer", "label": "Cliente Digital" },
+    { "id": "clerk", "label": "Asesor de Tienda Fisica" },
+    { "id": "backend", "label": "Sistema Omnicanal (FastAPI)" },
+    { "id": "inventory", "label": "Inventario Sucursal Local" }
+  ],
+  "phases": [
+    { "id": "reception", "label": "Recepcion", "fromCol": 0, "toCol": 1 },
+    { "id": "validation", "label": "Validacion y Reglas", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
+    { "id": "settlement", "label": "Reingreso y Liquidacion", "fromCol": 4, "toCol": 5, "variant": "dashed" }
+  ],
+  "mainPath": ["arrival", "order_search", "rule_eval", "inspection", "restock", "refund_voucher", "receipt"],
+  "nodes": [
+    { "id": "arrival", "lane": "customer", "col": 0, "type": "external", "label": "Llegada a Tienda", "sublabel": "presenta QR o ID", "width": 130 },
+    { "id": "order_search", "lane": "clerk", "col": 1, "type": "frontend", "label": "Buscar Pedido", "sublabel": "consulta en POS", "width": 130 },
+    { "id": "rule_eval", "lane": "backend", "col": 2, "type": "backend", "label": "Validar Politica", "sublabel": "plazo menor a 30 dias", "tag": "regla automatica", "width": 130 },
+    { "id": "reject", "lane": "clerk", "col": 2, "type": "security", "label": "Rechazar Solicitud", "sublabel": "plazo vencido / daño", "width": 130 },
+    { "id": "inspection", "lane": "clerk", "col": 3, "type": "security", "label": "Inspeccion Fisica", "sublabel": "calidad de articulo", "tag": "revision humana", "width": 130 },
+    { "id": "restock", "lane": "inventory", "col": 4, "type": "database", "label": "Reingreso a Stock", "sublabel": "inventario de tienda", "tag": "disponible venta", "width": 130 },
+    { "id": "refund_voucher", "lane": "backend", "col": 5, "type": "backend", "label": "Generar Reembolso", "sublabel": "vale de compra / nota", "width": 130 },
+    { "id": "receipt", "lane": "customer", "col": 5, "type": "external", "label": "Entrega de Vale", "sublabel": "comprobante al cliente", "width": 130 }
+  ],
+  "edges": [
+    { "id": "e1", "from": "arrival", "to": "order_search", "label": "presenta pedido" },
+    { "id": "e2", "from": "order_search", "to": "rule_eval", "label": "consulta API", "variant": "emphasis" },
+    { "id": "e3", "from": "rule_eval", "to": "inspection", "label": "vigente" },
+    { "id": "e4", "from": "rule_eval", "to": "reject", "label": "vencido", "variant": "security", "role": "error" },
+    { "id": "e5", "from": "inspection", "to": "restock", "label": "aprobado", "variant": "emphasis" },
+    { "id": "e6", "from": "inspection", "to": "reject", "label": "dañado", "variant": "security", "role": "error" },
+    { "id": "e7", "from": "restock", "to": "refund_voucher", "label": "stock sumado" },
+    { "id": "e8", "from": "refund_voucher", "to": "receipt", "label": "emite vale", "variant": "emphasis" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Reglas de Devolucion (BORIS)",
+      "items": [
+        "Plazo maximo de 30 dias desde entrega del pedido",
+        "Inspeccion fisica obligatoria en mostrador",
+        "Reabastecimiento directo del stock local"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Control de Excepciones",
+      "items": [
+        "Pedidos fuera de plazo son rechazados automaticamente",
+        "Articulos abiertos o en mal estado no proceden a reingreso",
+        "Trazabilidad completa del motivo de rechazo"
+      ]
+    }
+  ]
+}
